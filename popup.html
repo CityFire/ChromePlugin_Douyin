@@ -136,30 +136,245 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    
+    .tab-container {
+      display: flex;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .tab-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      background: none;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .tab-btn.active {
+      color: #1890ff;
+      border-bottom: 2px solid #1890ff;
+    }
+    
+    .download-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #1890ff;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    
+    .download-btn:hover {
+      background: #40a9ff;
+    }
+    
+    .result-container {
+      margin-top: 15px;
+      padding: 10px;
+      background: #f6f6f6;
+      border-radius: 4px;
+    }
+    
+    /* 美化按钮样式 */
+    .action-button {
+      background: linear-gradient(45deg, #1890ff, #40a9ff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(24, 144, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .action-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+      background: linear-gradient(45deg, #40a9ff, #69c0ff);
+    }
+    
+    .action-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(24, 144, 255, 0.2);
+    }
+    
+    .action-button:disabled {
+      background: #f5f5f5;
+      color: #999;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .action-button .loading {
+      margin-right: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+    }
+    
+    /* 添加波纹效果 */
+    .action-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    .action-button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(100, 100);
+        opacity: 0;
+      }
+    }
+    
+    .preview-container {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .media-container {
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .media-container img,
+    .media-container video {
+      max-width: 100%;
+      border-radius: 4px;
+    }
+    
+    .download-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      background: #1890ff;
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .download-button:hover {
+      background: #40a9ff;
+    }
+    
+    .download-icon {
+      margin-right: 6px;
+      font-size: 16px;
+    }
+    
+    .result-text {
+      margin-top: 10px;
+      text-align: center;
+      color: #666;
+    }
+    
+    .status-info {
+      color: #1890ff;
+      padding: 10px;
+      border-radius: 4px;
+      background: #e6f7ff;
+      border: 1px solid #91d5ff;
+    }
+    
+    .status-error {
+      color: #ff4d4f;
+      padding: 10px;
+      border-radius: 4px;
+      background: #fff2f0;
+      border: 1px solid #ffccc7;
+    }
+    
+    .status-success {
+      color: #52c41a;
+      padding: 10px;
+      border-radius: 4px;
+      background: #f6ffed;
+      border: 1px solid #b7eb8f;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="title">抖音视频链接导出工具</div>
+    <div class="title">抖音视频工具</div>
     
-    <div class="input-group">
-      <label for="minLikes">最小点赞数（可选）</label>
-      <input type="number" id="minLikes" placeholder="例如：1000" min="0">
+    <div class="tab-container">
+        <button class="tab-btn active" data-tab="extract">批量提取</button>
+        <button class="tab-btn" data-tab="watermark">去水印</button>
     </div>
     
-    <div class="button-group">
-      <button id="extractLinks">提取视频链接</button>
-      <button id="exportTxt">导出为文本文件</button>
+    <!-- 批量提取标签页 -->
+    <div class="tab-content" id="extractTab">
+        <div class="input-group">
+            <label for="minLikes">最小点赞数（可选）</label>
+            <input type="number" id="minLikes" placeholder="例如：1000" min="0">
+        </div>
+        
+        <div class="button-group">
+            <button id="extractLinks">提取视频链接</button>
+            <button id="exportTxt">导出为文本</button>
+        </div>
+        
+        <div id="progress" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-bar-inner" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">正在滚动页面: 0%</div>
+        </div>
+        
+        <div id="extractResult" class="result-text">等待开始提取视频...</div>
     </div>
     
-    <div id="progress" style="display: none;">
-      <div class="progress-bar">
-        <div class="progress-bar-inner" style="width: 0%"></div>
-      </div>
-      <div class="progress-text">正在滚动页面: 0%</div>
+    <!-- 去水印标签页 -->
+    <div class="tab-content" id="watermarkTab" style="display: none;">
+        <div class="input-group">
+            <label for="mediaUrl">视频/图片链接</label>
+            <input type="text" id="mediaUrl" placeholder="请粘贴抖音视频/图片链接">
+        </div>
+        
+        <div class="button-group">
+            <button id="removeWatermark" class="action-button">去除水印</button>
+        </div>
+        
+        <div id="preview" style="display: none; margin-top: 15px;">
+            <div class="preview-container">
+                <div class="media-container"></div>
+                <div class="download-container">
+                    <a id="downloadBtn" class="download-button" download>
+                        <span class="download-icon">⬇</span>
+                        <span class="download-text">下载</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="watermarkResult" class="result-text">请输入视频或图片链接</div>
     </div>
-    
-    <div id="result">等待开始提取视频...</div>
   </div>
   <script src="popup.js"></script>
 </body>

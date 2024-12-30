@@ -1,10 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "抖音视频链接导出",
+  "name": "抖音视频链接导出工具",
   "version": "1.0",
   "description": "获取抖音博主所有视频链接并导出",
-  "permissions": ["activeTab", "scripting", "tabs"],
-  "host_permissions": ["*://*.douyin.com/*"],
+  "permissions": [
+    "activeTab", 
+    "scripting", 
+    "tabs",
+    "downloads"
+  ],
+  "host_permissions": [
+    "*://*.douyin.com/*",
+    "*://*.douyin.wtf/*",
+    "*://*.iesdouyin.com/*"
+  ],
   "action": {
     "default_popup": "popup.html"
   },
@@ -12,7 +21,7 @@
     {
       "matches": ["*://*.douyin.com/*"],
       "js": ["content.js"],
-      "run_at": "document_end"
+      "run_at": "document_idle"
     }
   ]
 } 
